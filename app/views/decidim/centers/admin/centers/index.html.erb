@@ -1,0 +1,45 @@
+<% add_decidim_page_title(t(".title")) %>
+<div class="card">
+  <div class="card-divider">
+    <h2 class="card-title">
+      <%= t(".title") %>
+      <%= link_to t("actions.new", scope: "decidim.centers", name: t("models.center.name", scope: "decidim.centers.admin")), new_center_path, class: "button tiny button--title" if allowed_to? :create, :center %>
+    </h2>
+  </div>
+
+  <div class="card-section">
+    <div class="table-scroll">
+      <table class="table-list centers">
+        <thead>
+          <tr>
+            <th><%= t("models.center.fields.title", scope: "decidim.centers") %></th>
+            <th><%= t("models.center.fields.created_at", scope: "decidim.centers") %></th>
+            <th class="actions"><%= t("actions.title", scope: "decidim.centers") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% centers.each do |center| %>
+            <tr data-id="<%= center.id %>">
+              <td>
+                <%= translated_attribute(center.title) %><br>
+              </td>
+              <td>
+                <%= l center.created_at, format: "%d/%m/%Y - %H:%M" %>
+              </td>
+              <td class="table-list__actions">
+                <% if allowed_to? :update, :center, center: center %>
+                  <%= icon_link_to "pencil", edit_center_path(center), t("actions.edit", scope: "decidim.centers"), class: "action-icon--edit" %>
+                <% end %>
+
+                <% if allowed_to? :destroy, :center, center: center %>
+                  <%= icon_link_to "circle-x", center_path(center), t("actions.destroy", scope: "decidim.centers"), method: :delete, class: "action-icon--remove", data: { confirm: t("actions.confirm_destroy", scope: "decidim.centers") } %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= paginate centers, theme: "decidim" %>
+    </div>
+  </div>
+</div>

@@ -10,13 +10,25 @@ module Decidim
       paths["lib/tasks"] = nil
 
       routes do
-        # Add admin engine routes here
-        # resources :centers do
-        #   collection do
-        #     resources :exports, only: [:create]
-        #   end
-        # end
-        # root to: "centers#index"
+        resources :centers
+        root to: "centers#index"
+      end
+
+      initializer "decidim_centers.admin_mount_routes" do
+        Decidim::Core::Engine.routes do
+          mount Decidim::Centers::AdminEngine, at: "/admin/centers", as: "decidim_admin_centers"
+        end
+      end
+
+      initializer "decidim_centers.admin_menu" do
+        Decidim.menu :admin_menu do |menu|
+          menu.add_item :centers,
+                        I18n.t("menu.centers", scope: "decidim.admin", default: "Centers"),
+                        decidim_admin_centers.centers_path,
+                        icon_name: "home",
+                        position: 15,
+                        active: :inclusive
+        end
       end
 
       def load_seed
