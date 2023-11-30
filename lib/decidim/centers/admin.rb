@@ -3,7 +3,7 @@
 module Decidim
   module Centers
     # This module contains all the domain logic associated to Decidim's Centers
-    # component admin panel.
+    # admin panel.
     module Admin
     end
   end

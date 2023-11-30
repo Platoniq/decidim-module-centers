@@ -3,10 +3,9 @@
 require "decidim/centers/admin"
 require "decidim/centers/engine"
 require "decidim/centers/admin_engine"
-require "decidim/centers/component"
 
 module Decidim
-  # This namespace holds the logic of the `Centers` component. This component
+  # This namespace holds the logic of the `Centers` module. This module
   # allows users to create centers in a participatory space.
   module Centers
   end
