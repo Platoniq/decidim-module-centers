@@ -3,7 +3,6 @@
 require "decidim/core/test/factories"
 
 FactoryBot.define do
-  # Add engine factories here
   factory :center, class: "Decidim::Centers::Center" do
     organization { create :organization }
     title { generate_localized_title }
