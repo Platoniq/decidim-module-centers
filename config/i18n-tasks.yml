@@ -5,3 +5,6 @@ locales: [en]
 
 ignore_missing:
   - decidim.participatory_processes.scopes.global
+
+ignore_unused:
+  - decidim.centers.admin_log.*
