@@ -12,4 +12,9 @@ FactoryBot.define do
       deleted_at { Time.current }
     end
   end
+
+  factory :center_user, class: "Decidim::Centers::CenterUser" do
+    user { create :user }
+    center { create :center, organization: user.organization }
+  end
 end
