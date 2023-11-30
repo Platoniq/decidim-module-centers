@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module Decidim
-  # This holds the decidim-meetings version.
+  # This holds the decidim-centers version.
   module Centers
-    def self.version
-      "0.27.4"
-    end
+    VERSION = "0.1.0.dev"
+    DECIDIM_VERSION = "0.27.4"
+    COMPAT_DECIDIM_VERSION = [">= 0.27.0", "< 0.28"].freeze
   end
 end

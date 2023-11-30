@@ -5,7 +5,7 @@ $LOAD_PATH.push File.expand_path("lib", __dir__)
 require "decidim/centers/version"
 
 Gem::Specification.new do |s|
-  s.version = Decidim::Centers.version
+  s.version = Decidim::Centers::VERSION
   s.authors = ["Francisco Bolívar"]
   s.email = ["francisco.bolivar@nazaries.com"]
   s.license = "AGPL-3.0"
@@ -18,5 +18,5 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
 
-  s.add_dependency "decidim-core", Decidim::Centers.version
+  s.add_dependency "decidim-core", Decidim::Centers::COMPAT_DECIDIM_VERSION
 end
