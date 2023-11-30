@@ -15,6 +15,10 @@ module Decidim
         # root to: "centers#index"
       end
 
+      config.to_prepare do
+        Decidim::User.include(Decidim::Centers::UserOverride)
+      end
+
       initializer "Centers.webpacker.assets_path" do
         Decidim.register_assets_path File.expand_path("app/packs", root)
       end
