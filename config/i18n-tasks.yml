@@ -3,8 +3,5 @@
 base_locale: en
 locales: [en]
 
-ignore_unused:
-  - "decidim.components.centers.name"
-
 ignore_missing:
   - decidim.participatory_processes.scopes.global
