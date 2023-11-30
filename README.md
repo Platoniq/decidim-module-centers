@@ -7,6 +7,8 @@
 
 Manage your centers and scopes so the users can be authorized over them.
 
+> NOTE: in development, not ready for production.
+
 ## Installation
 
 Add this line to your application's Gemfile:
