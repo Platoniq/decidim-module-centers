@@ -17,7 +17,7 @@ module Decidim
           double(
             invalid?: invalid,
             title: { en: title },
-            current_organization: organization,
+            current_organization: organization
           )
         end
 
