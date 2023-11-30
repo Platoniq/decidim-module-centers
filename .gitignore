@@ -17,3 +17,9 @@ spec/decidim_dummy_app
 development_app
 
 .rubocop-*
+.rbenv-vars
+.vscode
+.byebug_history
+*.gem
+node_modules/
+npm_debug.log
