@@ -31,11 +31,11 @@ module Decidim
 
       initializer "decidim_centers.sync" do
         ActiveSupport::Notifications.subscribe "decidim.centers.user.updated" do |_name, data|
-          Decidim::Centers::SyncCenterUserJob.perform_later(data)
+          Decidim::Centers::SyncCenterUserJob.perform_now(data)
         end
       end
 
-      initializer "Centers.webpacker.assets_path" do
+      initializer "decidim_centers.webpacker.assets_path" do
         Decidim.register_assets_path File.expand_path("app/packs", root)
       end
     end
