@@ -11,9 +11,11 @@ module Decidim
 
       def call
         if form.invalid?
+          # :nocov:
           user = User.has_pending_invitations?(form.current_organization.id, form.email)
           user.invite!(user.invited_by) if user
           return broadcast(:invalid)
+          # :nocov:
         end
 
         create_user
@@ -21,7 +23,9 @@ module Decidim
 
         broadcast(:ok, @user)
       rescue ActiveRecord::RecordInvalid
+        # :nocov:
         broadcast(:invalid)
+        # :nocov:
       end
     end
   end

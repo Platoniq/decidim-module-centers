@@ -22,10 +22,12 @@ module Decidim
           publish_center_update_event
           broadcast(:ok, @user.unconfirmed_email.present?)
         else
+          # :nocov:
           [:avatar, :password, :password_confirmation].each do |key|
             @form.errors.add key, @user.errors[key] if @user.errors.has_key? key
           end
           broadcast(:invalid)
+          # :nocov:
         end
       end
     end

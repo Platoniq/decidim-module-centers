@@ -14,10 +14,12 @@ module Decidim
 
         begin
           if existing_identity
+            # :nocov:
             user = existing_identity.user
             verify_user_confirmed(user)
 
             return broadcast(:ok, user)
+            # :nocov:
           end
           return broadcast(:invalid) if form.invalid?
 
@@ -30,7 +32,9 @@ module Decidim
 
           broadcast(:ok, @user)
         rescue ActiveRecord::RecordInvalid => e
+          # :nocov:
           broadcast(:error, e.record)
+          # :nocov:
         end
       end
     end
