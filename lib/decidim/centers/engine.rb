@@ -17,13 +17,16 @@ module Decidim
       end
 
       config.to_prepare do
+        # commands
+        Decidim::CreateOmniauthRegistration.prepend(Decidim::Centers::CreateOmniauthRegistrationOverride)
+        Decidim::CreateRegistration.prepend(Decidim::Centers::CreateRegistrationOverride)
+        Decidim::UpdateAccount.prepend(Decidim::Centers::UpdateAccountOverride)
+        # forms
+        Decidim::RegistrationForm.include(Decidim::Centers::AccountFormOverride)
+        Decidim::OmniauthRegistrationForm.include(Decidim::Centers::AccountFormOverride)
+        Decidim::AccountForm.include(Decidim::Centers::AccountFormOverride)
+        # models
         Decidim::User.include(Decidim::Centers::UserOverride)
-        Decidim::RegistrationForm.include(Centers::AccountFormOverride)
-        Decidim::OmniauthRegistrationForm.include(Centers::AccountFormOverride)
-        Decidim::AccountForm.include(Centers::AccountFormOverride)
-        Decidim::CreateOmniauthRegistration.prepend(Centers::CreateOmniauthRegistrationOverride)
-        Decidim::CreateRegistration.prepend(Centers::CreateRegistrationOverride)
-        Decidim::UpdateAccount.prepend(Centers::UpdateAccountOverride)
       end
 
       initializer "decidim_centers.sync" do

@@ -14,7 +14,7 @@ module Decidim
 
         attribute :center_id, Integer
 
-        validates :center_id, presence: true, inclusion: { in: Decidim::Centers::Center.all.map(&:id) }
+        validates :center_id, presence: true
 
         def map_model(model)
           original_map_model(model)
