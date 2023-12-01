@@ -1,0 +1,3 @@
+<!-- insert_after "erb[loud]:contains('email_field')" -->
+
+<%= render partial: "/decidim/centers/registration_form", locals: { f: f } %>

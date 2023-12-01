@@ -9,7 +9,16 @@ checksums = [
   {
     package: "decidim-core",
     files: {
-      "/app/models/decidim/user.rb" => "3d57a7c9130a91d44e1acd7475877b87"
+      "/app/commands/decidim/create_omniauth_registration.rb" => "586139f98ded0645eb83e480ef5dd6bd",
+      "/app/commands/decidim/create_registration.rb" => "8bf3456d42c21036d08ccafe16e9105a",
+      "/app/commands/decidim/update_account.rb" => "29d81617f5bf1af310d2777a916b4d8b",
+      "/app/forms/decidim/account_form.rb" => "73a8150ed1620d515a1c96f680e98ec0",
+      "/app/forms/decidim/omniauth_registration_form.rb" => "ee09e2b5675c9d1cb4dc955dded05393",
+      "/app/forms/decidim/registration_form.rb" => "32b55eb5a1742b6b8ed7bbb4c7643dc0",
+      "/app/models/decidim/user.rb" => "3d57a7c9130a91d44e1acd7475877b87",
+      "/app/views/decidim/account/show.html.erb" => "567f47fd001a0222943579d9ebfe5f3a",
+      "/app/views/decidim/devise/omniauth_registrations/new.html.erb" => "81d19863520eb70fd228deec786e739a",
+      "/app/views/decidim/devise/registrations/new.html.erb" => "5f6f15330839fa55697c4e272767a090"
     }
   }
 ]

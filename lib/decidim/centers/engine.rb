@@ -2,6 +2,7 @@
 
 require "rails"
 require "decidim/core"
+require "deface"
 
 module Decidim
   module Centers
@@ -16,10 +17,25 @@ module Decidim
       end
 
       config.to_prepare do
+        # commands
+        Decidim::CreateOmniauthRegistration.prepend(Decidim::Centers::CreateOmniauthRegistrationOverride)
+        Decidim::CreateRegistration.prepend(Decidim::Centers::CreateRegistrationOverride)
+        Decidim::UpdateAccount.prepend(Decidim::Centers::UpdateAccountOverride)
+        # forms
+        Decidim::RegistrationForm.include(Decidim::Centers::AccountFormOverride)
+        Decidim::OmniauthRegistrationForm.include(Decidim::Centers::AccountFormOverride)
+        Decidim::AccountForm.include(Decidim::Centers::AccountFormOverride)
+        # models
         Decidim::User.include(Decidim::Centers::UserOverride)
       end
 
-      initializer "Centers.webpacker.assets_path" do
+      initializer "decidim_centers.sync" do
+        ActiveSupport::Notifications.subscribe "decidim.centers.user.updated" do |_name, data|
+          Decidim::Centers::SyncCenterUserJob.perform_now(data)
+        end
+      end
+
+      initializer "decidim_centers.webpacker.assets_path" do
         Decidim.register_assets_path File.expand_path("app/packs", root)
       end
     end
