@@ -1,6 +1,10 @@
 ---
 en:
   decidim:
+    authorization_handlers:
+      center:
+        explanation: Get verified with the center of the user
+        name: Center
     centers:
       actions:
         confirm_destroy: Are you sure you want to delete this center?

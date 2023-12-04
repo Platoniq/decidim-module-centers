@@ -29,6 +29,13 @@ module Decidim
         Decidim::User.include(Decidim::Centers::UserOverride)
       end
 
+      initializer "decidim_centers.overrides", after: "decidim.action_controller" do
+        config.to_prepare do
+          Decidim::Devise::SessionsController.include(Decidim::Centers::Devise::SessionsControllerOverride)
+          Decidim::Devise::OmniauthRegistrationsController.include(Decidim::Centers::Devise::OmniauthRegistrationsControllerOverride)
+        end
+      end
+
       initializer "decidim_centers.sync" do
         ActiveSupport::Notifications.subscribe "decidim.centers.user.updated" do |_name, data|
           Decidim::Centers::SyncCenterUserJob.perform_now(data)
