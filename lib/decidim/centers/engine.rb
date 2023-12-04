@@ -32,6 +32,13 @@ module Decidim
       initializer "decidim_centers.sync" do
         ActiveSupport::Notifications.subscribe "decidim.centers.user.updated" do |_name, data|
           Decidim::Centers::SyncCenterUserJob.perform_now(data)
+          Decidim::Centers::AutoVerificationJob.perform_later(data[:user_id])
+        end
+      end
+
+      initializer "decidim_centers.authorizations" do
+        Decidim::Verifications.register_workflow(:center) do |workflow|
+          workflow.form = "Decidim::Centers::Verifications::Center"
         end
       end
 

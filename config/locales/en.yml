@@ -34,6 +34,9 @@ en:
           create: "%{user_name} created the %{resource_name} center"
           delete: "%{user_name} deleted the %{resource_name} center"
           update: "%{user_name} updated the %{resource_name} center"
+      authorizations:
+        new:
+          error: The user has no center configured
       models:
         center:
           fields:
