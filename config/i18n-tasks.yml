@@ -8,3 +8,4 @@ ignore_missing:
 
 ignore_unused:
   - decidim.centers.admin_log.*
+  - decidim.authorization_handlers.*

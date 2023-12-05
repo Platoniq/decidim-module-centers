@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "decidim/centers/test/shared_contexts"
 
 describe "Registration spec", type: :system do
   let(:organization) { create :organization }
@@ -28,7 +29,7 @@ describe "Registration spec", type: :system do
     end
   end
 
-  it "allows to create a new account" do
+  it "allows to create a new account and authorizes the user with the center provided" do
     fill_in :registration_user_name, with: name
     fill_in :registration_user_nickname, with: nickname
     fill_in :registration_user_email, with: email
@@ -48,5 +49,8 @@ describe "Registration spec", type: :system do
 
     expect(page).to have_content("message with a confirmation link has been sent")
     expect(Decidim::User.last.center).to eq(center)
+
+    perform_enqueued_jobs
+    check_center_authorization(Decidim::Authorization.last, Decidim::User.last, center)
   end
 end
