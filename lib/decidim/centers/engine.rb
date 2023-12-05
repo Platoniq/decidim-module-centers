@@ -31,6 +31,7 @@ module Decidim
 
       initializer "decidim_centers.overrides", after: "decidim.action_controller" do
         config.to_prepare do
+          Decidim::Admin::ResourcePermissionsController.include(Decidim::Centers::Admin::NeedsSelect2Snippets)
           Decidim::Devise::SessionsController.include(Decidim::Centers::Devise::SessionsControllerOverride)
           Decidim::Devise::OmniauthRegistrationsController.include(Decidim::Centers::Devise::OmniauthRegistrationsControllerOverride)
         end
@@ -46,6 +47,11 @@ module Decidim
       initializer "decidim_centers.authorizations" do
         Decidim::Verifications.register_workflow(:center) do |workflow|
           workflow.form = "Decidim::Centers::Verifications::Center"
+          workflow.action_authorizer = "Decidim::Centers::Verifications::CenterActionAuthorizer"
+
+          workflow.options do |options|
+            options.attribute :centers, type: :string
+          end
         end
       end
 

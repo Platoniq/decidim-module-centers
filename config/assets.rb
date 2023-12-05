@@ -4,6 +4,5 @@ base_path = File.expand_path("..", __dir__)
 
 Decidim::Webpacker.register_path("#{base_path}/app/packs")
 Decidim::Webpacker.register_entrypoints(
-  decidim_centers: "#{base_path}/app/packs/entrypoints/decidim_centers.js"
+  decidim_centers_admin_select2: "#{base_path}/app/packs/entrypoints/decidim_centers_admin_select2.js"
 )
-Decidim::Webpacker.register_stylesheet_import("stylesheets/decidim/centers/centers")

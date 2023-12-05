@@ -5,7 +5,19 @@ module Decidim
     module Admin
       # This controller allows the create or update a center.
       class CentersController < ApplicationController
+        include TranslatableAttributes
+
         helper_method :centers, :center
+
+        def index
+          enforce_permission_to :index, :center
+          respond_to do |format|
+            format.html
+            format.json do
+              render json: json_centers
+            end
+          end
+        end
 
         def new
           enforce_permission_to :create, :center
@@ -64,6 +76,18 @@ module Decidim
         end
 
         private
+
+        def json_centers
+          query = filtered_centers
+          query = query.where(id: params[:ids]) if params[:ids]
+          query = query.where("title->>? ilike ?", I18n.locale, "%#{params[:q]}%") if params[:q]
+          query.map do |item|
+            {
+              id: item.id,
+              text: translated_attribute(item.title)
+            }
+          end
+        end
 
         def center
           @center ||= filtered_centers.find(params[:id])
