@@ -27,10 +27,23 @@ module Decidim
         Decidim::AccountForm.include(Decidim::Centers::AccountFormOverride)
         # models
         Decidim::User.include(Decidim::Centers::UserOverride)
+        Decidim::RegistrationForm.include(Centers::AccountFormOverride)
+        Decidim::OmniauthRegistrationForm.include(Centers::AccountFormOverride)
+        Decidim::AccountForm.include(Centers::AccountFormOverride)
+        Decidim::CreateOmniauthRegistration.prepend(Centers::CreateOmniauthRegistrationOverride)
+        Decidim::CreateRegistration.prepend(Centers::CreateRegistrationOverride)
+        Decidim::UpdateAccount.prepend(Centers::UpdateAccountOverride)
+      end
+
+      initializer "decidim_centers.sync" do
+        ActiveSupport::Notifications.subscribe "decidim.centers.user.updated" do |_name, data|
+          Decidim::Centers::SyncCenterUserJob.perform_later(data)
+        end
       end
 
       initializer "decidim_centers.overrides", after: "decidim.action_controller" do
         config.to_prepare do
+          Decidim::Admin::ResourcePermissionsController.include(Decidim::Centers::Admin::NeedsSelect2Snippets)
           Decidim::Devise::SessionsController.include(Decidim::Centers::Devise::SessionsControllerOverride)
           Decidim::Devise::OmniauthRegistrationsController.include(Decidim::Centers::Devise::OmniauthRegistrationsControllerOverride)
         end
@@ -46,6 +59,11 @@ module Decidim
       initializer "decidim_centers.authorizations" do
         Decidim::Verifications.register_workflow(:center) do |workflow|
           workflow.form = "Decidim::Centers::Verifications::Center"
+          workflow.action_authorizer = "Decidim::Centers::Verifications::CenterActionAuthorizer"
+
+          workflow.options do |options|
+            options.attribute :centers, type: :string
+          end
         end
       end
 

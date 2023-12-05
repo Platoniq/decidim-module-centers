@@ -3,6 +3,7 @@
 require "decidim/centers/admin"
 require "decidim/centers/engine"
 require "decidim/centers/admin_engine"
+require "decidim/centers/verifications"
 
 module Decidim
   # This namespace holds the logic of the `Centers` module. This module

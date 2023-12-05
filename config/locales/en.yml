@@ -4,6 +4,8 @@ en:
     authorization_handlers:
       center:
         explanation: Get verified with the center of the user
+        fields:
+          centers: Centers
         name: Center
     centers:
       actions:
