@@ -17,4 +17,9 @@ FactoryBot.define do
     user { create :user }
     center { create :center, organization: user.organization }
   end
+
+  factory :scope_user, class: "Decidim::Centers::ScopeUser" do
+    user { create :user }
+    scope { create :scope, organization: user.organization }
+  end
 end

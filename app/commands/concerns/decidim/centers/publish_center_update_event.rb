@@ -11,7 +11,8 @@ module Decidim
         ActiveSupport::Notifications.publish(
           "decidim.centers.user.updated",
           user_id: @user.id,
-          center_id: @form.center_id
+          center_id: @form.center_id,
+          scope_id: @form.scope_id
         )
       end
     end

@@ -42,7 +42,7 @@ en:
           update: "%{user_name} updated the %{resource_name} center"
       authorizations:
         new:
-          error: The user has no center configured
+          error: The user has no center or scope configured
       models:
         center:
           fields:
