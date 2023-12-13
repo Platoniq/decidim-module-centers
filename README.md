@@ -84,8 +84,8 @@ You can create the development app by running the following commands after
 cloning this project:
 
 ```bash
-$ bundle
-$ DATABASE_USERNAME=<username> DATABASE_PASSWORD=<password> bundle exec rake development_app
+bundle
+DATABASE_USERNAME=<username> DATABASE_PASSWORD=<password> bundle exec rake development_app
 ```
 
 Note that the database user has to have rights to create and drop a database in
@@ -94,8 +94,8 @@ order to create the dummy test app database.
 Then to test how the module works in Decidim, start the development server:
 
 ```bash
-$ cd development_app
-$ DATABASE_USERNAME=<username> DATABASE_PASSWORD=<password> bundle exec rails s
+cd development_app
+DATABASE_USERNAME=<username> DATABASE_PASSWORD=<password> bundle exec rails s
 ```
 
 In case you are using [rbenv](https://github.com/rbenv/rbenv) and have the
@@ -115,8 +115,8 @@ project is set to follow the same rules that Decidim itself follows.
 You can run the code styling checks by running the following commands from the
 console:
 
-```
-$ bundle exec rubocop
+```bash
+bundle exec rubocop
 ```
 
 To ease up following the style guide, you should install the plugin to your
@@ -131,9 +131,9 @@ favorite editor, such as:
 To run the tests run the following in the gem development path:
 
 ```bash
-$ bundle
-$ DATABASE_USERNAME=<username> DATABASE_PASSWORD=<password> bundle exec rake test_app
-$ DATABASE_USERNAME=<username> DATABASE_PASSWORD=<password> bundle exec rspec
+bundle
+DATABASE_USERNAME=<username> DATABASE_PASSWORD=<password> bundle exec rake test_app
+DATABASE_USERNAME=<username> DATABASE_PASSWORD=<password> bundle exec rspec
 ```
 
 Note that the database user has to have rights to create and drop a database in
