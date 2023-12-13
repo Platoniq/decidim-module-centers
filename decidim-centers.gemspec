@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.summary = "A decidim module to categorize users with centers and scopes"
   s.description = "Manage your centers and scopes so the users can be authorized over them."
 
-  s.files = Dir["{app,config,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,lib,db}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
 
   s.add_dependency "decidim-core", Decidim::Centers::COMPAT_DECIDIM_VERSION
   s.add_dependency "deface", "~> 1.9"
