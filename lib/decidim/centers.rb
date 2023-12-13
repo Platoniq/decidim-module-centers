@@ -13,7 +13,7 @@ module Decidim
 
     # if false, it won't ask the user for the scope
     config_accessor :scopes_enabled do
-      true
+      Decidim::Env.new("DECIDIM_CENTERS_SCOPES_ENABLED", true).default_or_present_if_exists
     end
   end
 end
