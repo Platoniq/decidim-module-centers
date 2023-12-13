@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "decidim/centers/test/shared_contexts"
 require "decidim/proposals/test/factories"
 
 describe "Center verifications spec", type: :system do
@@ -11,10 +12,14 @@ describe "Center verifications spec", type: :system do
   let!(:proposal) { create :proposal, component: component }
   let!(:component) { create :proposal_component, :with_creation_enabled, participatory_space: participatory_process }
   let!(:centers) { create_list :center, 10, organization: organization }
+  let!(:scopes) { create_list :scope, 10, organization: organization }
   let(:center) { centers.first }
   let(:other_center) { centers.second }
   let(:another_center) { centers.last }
-  let!(:authorization) { create(:authorization, :granted, user: user, name: "center", metadata: { "centers" => [center.id] }) }
+  let(:scope) { scopes.first }
+  let(:other_scope) { scopes.second }
+  let(:another_scope) { scopes.last }
+  let!(:authorization) { create(:authorization, :granted, user: user, name: "center", metadata: { "centers" => [center.id], "scopes" => [scope.id] }) }
 
   before do
     switch_to_host(organization.host)
@@ -58,29 +63,105 @@ describe "Center verifications spec", type: :system do
     end
   end
 
-  context "with no centers specified" do
-    let(:options) { {} }
+  context "when scopes are disabled" do
+    include_context "with scopes disabled"
 
-    it_behaves_like "user is authorized"
+    let!(:authorization) { create(:authorization, :granted, user: user, name: "center", metadata: { "centers" => [center.id] }) }
 
-    context "when no authorization" do
-      let!(:authorization) { nil }
+    context "with no centers specified" do
+      let(:options) { {} }
 
-      it_behaves_like "user is not authorized"
+      it_behaves_like "user is authorized"
+
+      context "when no authorization" do
+        let!(:authorization) { nil }
+
+        it_behaves_like "user is not authorized"
+      end
+    end
+
+    context "with centers specified" do
+      context "when the user has one of the specified centers" do
+        let(:options) { { "centers" => "#{center.id},#{other_center.id}" } }
+
+        it_behaves_like "user is authorized"
+      end
+
+      context "when the user doesn't have one of the specified centers" do
+        let(:options) { { "centers" => "#{other_center.id},#{another_center.id}" } }
+
+        it_behaves_like "user is authorized with wrong metadata"
+      end
     end
   end
 
-  context "with centers specified" do
-    context "when the user has one of the specified centers" do
-      let(:options) { { "centers" => "#{center.id},#{other_center.id}" } }
+  context "when scopes are enabled" do
+    context "with no centers specified" do
+      context "with no scopes specified" do
+        let(:options) { {} }
 
-      it_behaves_like "user is authorized"
+        it_behaves_like "user is authorized"
+
+        context "when no authorization" do
+          let!(:authorization) { nil }
+
+          it_behaves_like "user is not authorized"
+        end
+      end
+
+      context "with scopes specified" do
+        let(:options) { { "scopes" => "#{scope.id},#{other_scope.id}" } }
+
+        it_behaves_like "user is authorized"
+      end
+
+      context "when the user doesn't have one of the specified scopes" do
+        let(:options) { { "scopes" => "#{other_scope.id},#{another_scope.id}" } }
+
+        it_behaves_like "user is authorized with wrong metadata"
+      end
     end
 
-    context "when the user doesn't have one of the specified centers" do
-      let(:options) { { "centers" => "#{other_center.id},#{another_center.id}" } }
+    context "with centers specified" do
+      context "with no scopes specified" do
+        context "when the user has one of the specified centers" do
+          let(:options) { { "centers" => "#{center.id},#{other_center.id}" } }
 
-      it_behaves_like "user is authorized with wrong metadata"
+          it_behaves_like "user is authorized"
+        end
+
+        context "when the user doesn't have one of the specified centers" do
+          let(:options) { { "centers" => "#{other_center.id},#{another_center.id}" } }
+
+          it_behaves_like "user is authorized with wrong metadata"
+        end
+      end
+
+      context "with scopes specified" do
+        context "when the user has one of the specified centers and scopes" do
+          let(:options) { { "centers" => "#{center.id},#{other_center.id}", "scopes" => "#{scope.id},#{other_scope.id}" } }
+
+          it_behaves_like "user is authorized"
+        end
+
+        context "when the user doesn't have one of the specified centers" do
+          let(:options) { { "centers" => "#{other_center.id},#{another_center.id}", "scopes" => "#{scope.id},#{other_scope.id}" } }
+
+          it_behaves_like "user is authorized with wrong metadata"
+        end
+
+        context "when the user doesn't have one of the specified scopes" do
+          let(:options) { { "centers" => "#{center.id},#{other_center.id}", "scopes" => "#{other_scope.id},#{another_scope.id}" } }
+
+          it_behaves_like "user is authorized with wrong metadata"
+        end
+
+        context "when the user doesn't have one of the centers specified neither the scope" do
+          let(:options) { { "centers" => "#{other_center.id},#{another_center.id}", "scopes" => "#{other_scope.id},#{another_scope.id}" } }
+
+          it_behaves_like "user is authorized with wrong metadata"
+        end
+      end
     end
   end
 
