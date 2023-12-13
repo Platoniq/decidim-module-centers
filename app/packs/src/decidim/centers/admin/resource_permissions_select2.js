@@ -4,7 +4,16 @@ $(() => {
    * Used to override simple inputs in the resource permissions controller
    * Allows to use more than one center when configuring :centers authorization handler
    * */
-  const urlCenters = "/admin/centers/centers";
+  const fields = [
+    {
+      url: "/admin/centers/centers",
+      inputName: "[authorization_handlers_options][center][centers]"
+    },
+    {
+      url: "/admin/centers/scopes",
+      inputName: "[authorization_handlers_options][center][scopes]"
+    }
+  ]
 
   const select2InputTags = (queryStr, url) => {
     const $input = $(queryStr)
@@ -37,21 +46,23 @@ $(() => {
   };
 
   // Groups multiselect permissions
-  $("input[name$='[authorization_handlers_options][center][centers]']").each((idx, input) => {
-    select2InputTags(input, urlCenters).select2({
-      ajax: {
-        url: urlCenters,
-        delay: 100,
-        dataType: "json",
-        processResults: (data) => {
-          return {
-            results: data
+  fields.forEach((field) => {
+    $(`input[name$='${field.inputName}']`).each((idx, input) => {
+      select2InputTags(input, field.url).select2({
+        ajax: {
+          url: field.url,
+          delay: 100,
+          dataType: "json",
+          processResults: (data) => {
+            return {
+              results: data
+            }
           }
-        }
-      },
-      width: "100%",
-      multiple: true,
-      theme: "foundation"
+        },
+        width: "100%",
+        multiple: true,
+        theme: "foundation"
+      });
     });
   });
 });

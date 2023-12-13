@@ -66,6 +66,7 @@ module Decidim
 
           workflow.options do |options|
             options.attribute :centers, type: :string
+            options.attribute :scopes, type: :string if Decidim::Centers.scopes_enabled
           end
         end
       end

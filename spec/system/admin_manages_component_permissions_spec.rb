@@ -1,14 +1,19 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "decidim/centers/test/shared_contexts"
 
 describe "Admin manages component permissions", type: :system do
   let(:organization) { create :organization, available_authorizations: %w(center) }
   let(:user) { create :user, :admin, :confirmed, organization: organization }
   let!(:centers) { create_list :center, 10, organization: organization }
+  let!(:scopes) { create_list :scope, 10, organization: organization }
   let(:center) { centers.first }
   let(:other_center) { centers.second }
   let(:another_center) { centers.last }
+  let(:scope) { scopes.first }
+  let(:other_scope) { scopes.second }
+  let(:another_scope) { scopes.last }
   let(:participatory_space_engine) { decidim_admin_participatory_processes }
   let!(:component) { create :component, participatory_space: participatory_space }
   let!(:participatory_space) { create :participatory_process, organization: organization }
@@ -17,7 +22,7 @@ describe "Admin manages component permissions", type: :system do
       "foo" => {
         "authorization_handlers" => {
           "center" => {
-            "options" => { "centers" => "#{center.id},#{other_center.id}" }
+            "options" => { "centers" => "#{center.id},#{other_center.id}", "scopes" => "#{scope.id},#{other_scope.id}" }
           }
         }
       }
@@ -41,13 +46,36 @@ describe "Admin manages component permissions", type: :system do
     find("li.select2-results__option", text: name).click
   end
 
+  def select_scope(name)
+    within "form.new_component_permissions" do
+      within ".foo-permission" do
+        check "Center"
+        fill_in "Scopes", with: name
+      end
+    end
+
+    find("li.select2-results__option", text: name).click
+  end
+
   def unselect_center(name)
-    find("li.select2-selection__choice[title=\"#{name}\"] button.select2-selection__choice__remove").click
+    find(".centers_container li.select2-selection__choice[title=\"#{name}\"] button.select2-selection__choice__remove").click
+  end
+
+  def unselect_scope(name)
+    find(".scopes_container li.select2-selection__choice[title=\"#{name}\"] button.select2-selection__choice__remove").click
   end
 
   def submit_form
     within "form.new_component_permissions" do
       find("*[type=submit]").click
+    end
+  end
+
+  context "when scopes are disabled" do
+    include_context "with scopes disabled"
+
+    it "doesn't show a field for the scopes" do
+      expect(page).not_to have_selector(".scopes_container")
     end
   end
 
@@ -59,14 +87,10 @@ describe "Admin manages component permissions", type: :system do
     end
 
     it "saves permission settings in the component" do
-      within "form.new_component_permissions" do
-        within ".foo-permission" do
-          check "Center"
-        end
-      end
-
       select_center(center.title["en"])
       select_center(other_center.title["en"])
+      select_scope(scope.name["en"])
+      select_scope(other_scope.name["en"])
       submit_form
 
       expect(page).to have_content("successfully")
@@ -75,7 +99,7 @@ describe "Admin manages component permissions", type: :system do
         include(
           "authorization_handlers" => {
             "center" => {
-              "options" => { "centers" => "#{center.id},#{other_center.id}" }
+              "options" => { "centers" => "#{center.id},#{other_center.id}", "scopes" => "#{scope.id},#{other_scope.id}" }
             }
           }
         )
@@ -119,6 +143,8 @@ describe "Admin manages component permissions", type: :system do
     it "changes the configured action in the permissions hash" do
       unselect_center(center.title["en"])
       select_center(another_center.title["en"])
+      unselect_scope(scope.name["en"])
+      select_scope(another_scope.name["en"])
       submit_form
 
       expect(page).to have_content("successfully")
@@ -127,7 +153,7 @@ describe "Admin manages component permissions", type: :system do
         include(
           "authorization_handlers" => {
             "center" => {
-              "options" => { "centers" => "#{other_center.id},#{another_center.id}" }
+              "options" => { "centers" => "#{other_center.id},#{another_center.id}", "scopes" => "#{other_scope.id},#{another_scope.id}" }
             }
           }
         )

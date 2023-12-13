@@ -6,6 +6,7 @@ en:
         explanation: Get verified with the center of the user
         fields:
           centers: Centers
+          scopes: Scopes
         name: Center
     centers:
       actions:
