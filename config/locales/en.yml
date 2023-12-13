@@ -6,6 +6,7 @@ en:
         explanation: Get verified with the center of the user
         fields:
           centers: Centers
+          scopes: Scopes
         name: Center
     centers:
       actions:
@@ -42,7 +43,7 @@ en:
           update: "%{user_name} updated the %{resource_name} center"
       authorizations:
         new:
-          error: The user has no center configured
+          error: The user has no center or scope configured
       models:
         center:
           fields:

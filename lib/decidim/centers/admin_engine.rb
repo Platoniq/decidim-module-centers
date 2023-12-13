@@ -11,6 +11,7 @@ module Decidim
 
       routes do
         resources :centers
+        resources :scopes, only: :index
         root to: "centers#index"
       end
 

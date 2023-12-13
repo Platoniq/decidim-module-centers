@@ -4,26 +4,26 @@ require "spec_helper"
 
 module Decidim
   module Centers
-    describe CenterUser do
-      subject { center_user }
+    describe ScopeUser do
+      subject { scope_user }
 
-      let(:center_user) { build :center_user }
+      let(:scope_user) { build :scope_user }
 
       it { is_expected.to be_valid }
 
       describe "same_organization" do
         let(:organization) { create :organization }
         let(:other_organization) { create :organization }
-        let(:center) { create :center, organization: organization }
+        let(:scope) { create :scope, organization: organization }
         let(:user) { create :user, organization: other_organization }
-        let(:center_user) { build :center_user, center: center, user: user }
+        let(:scope_user) { build :scope_user, scope: scope, user: user }
 
         it { is_expected.not_to be_valid }
       end
 
       describe "unique_by_user" do
-        let!(:other_center_user) { create :center_user }
-        let(:center_user) { build :center_user, user: other_center_user.user }
+        let!(:other_scope_user) { create :scope_user }
+        let(:scope_user) { build :scope_user, user: other_scope_user.user }
 
         it { is_expected.not_to be_valid }
       end

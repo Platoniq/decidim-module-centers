@@ -19,6 +19,7 @@ checksums = [
       "/app/commands/decidim/create_registration.rb" => "8bf3456d42c21036d08ccafe16e9105a",
       "/app/commands/decidim/update_account.rb" => "29d81617f5bf1af310d2777a916b4d8b",
       "/app/controllers/decidim/devise/omniauth_registrations_controller.rb" => "05bc35af4b5f855736f14efbd22e439b",
+      "/app/controllers/decidim/devise/registrations_controller.rb" => "315c5b3865ecad9d647b4da98057407f",
       "/app/controllers/decidim/devise/sessions_controller.rb" => "235cbe9844cdd39f65c72d3dc87f5f23",
       "/app/forms/decidim/account_form.rb" => "73a8150ed1620d515a1c96f680e98ec0",
       "/app/forms/decidim/omniauth_registration_form.rb" => "ee09e2b5675c9d1cb4dc955dded05393",

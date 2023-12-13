@@ -7,10 +7,12 @@ module Decidim
     module Verifications
       class Center < Decidim::AuthorizationHandler
         validate :center_present
+        validate :scope_present
 
         def metadata
           super.merge(
-            centers: user.centers.pluck(:id)
+            centers: user.centers.pluck(:id),
+            scopes: user.scopes.pluck(:id)
           )
         end
 
@@ -18,6 +20,12 @@ module Decidim
 
         def center_present
           errors.add(:user, I18n.t("decidim.centers.authorizations.new.error")) unless user.centers.any?
+        end
+
+        def scope_present
+          return unless Decidim::Centers.scopes_enabled
+
+          errors.add(:user, I18n.t("decidim.centers.authorizations.new.error")) unless user.scopes.any?
         end
       end
     end

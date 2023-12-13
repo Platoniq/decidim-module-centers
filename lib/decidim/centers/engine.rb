@@ -46,12 +46,15 @@ module Decidim
           Decidim::Admin::ResourcePermissionsController.include(Decidim::Centers::Admin::NeedsSelect2Snippets)
           Decidim::Devise::SessionsController.include(Decidim::Centers::Devise::SessionsControllerOverride)
           Decidim::Devise::OmniauthRegistrationsController.include(Decidim::Centers::Devise::OmniauthRegistrationsControllerOverride)
+          Decidim::Devise::OmniauthRegistrationsController.include(Decidim::Centers::WithScopesHelper)
+          Decidim::Devise::RegistrationsController.include(Decidim::Centers::WithScopesHelper)
         end
       end
 
       initializer "decidim_centers.sync" do
         ActiveSupport::Notifications.subscribe "decidim.centers.user.updated" do |_name, data|
           Decidim::Centers::SyncCenterUserJob.perform_now(data)
+          Decidim::Centers::SyncScopeUserJob.perform_now(data) if Decidim::Centers.scopes_enabled
           Decidim::Centers::AutoVerificationJob.perform_later(data[:user_id])
         end
       end
@@ -63,6 +66,7 @@ module Decidim
 
           workflow.options do |options|
             options.attribute :centers, type: :string
+            options.attribute :scopes, type: :string if Decidim::Centers.scopes_enabled
           end
         end
       end

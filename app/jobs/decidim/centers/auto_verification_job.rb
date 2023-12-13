@@ -7,7 +7,7 @@ module Decidim
 
       def perform(user_id)
         @user = Decidim::User.find(user_id)
-        @user.centers.any? ? create_auth : remove_auth
+        @user.centers.any? || @user.scopes.any? ? create_auth : remove_auth
       rescue ActiveRecord::RecordNotFound => _e
         Rails.logger.error "AutoVerificationJob: ERROR: user not found #{user_id}"
       end
