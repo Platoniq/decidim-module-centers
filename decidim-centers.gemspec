@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.0"
 
   s.name = "decidim-centers"
-  s.summary = "A decidim centers module"
+  s.summary = "A decidim module to categorize users with centers and scopes"
   s.description = "Manage your centers and scopes so the users can be authorized over them."
 
   s.files = Dir["{app,config,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
