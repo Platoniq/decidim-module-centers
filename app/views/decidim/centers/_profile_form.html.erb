@@ -4,7 +4,6 @@
   <%= f.collection_select :role_id, f.object.role_options_for_select, :first, :last %>
 <% end %>
 
-
 <% if Decidim::Centers.scopes_enabled %>
   <%= scopes_picker_field f, :scope_id, root: nil %>
 <% end %>
