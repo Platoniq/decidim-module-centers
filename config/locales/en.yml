@@ -34,6 +34,11 @@ en:
           update:
             invalid: There was a problem saving the center.
             success: Center successfully saved
+        models:
+          center:
+            name: Center
+          role:
+            name: Role
         roles:
           actions:
             confirm_destroy: Are you sure you want to delete this role?
@@ -57,11 +62,6 @@ en:
           update:
             invalid: There was a problem saving the role.
             success: Role successfully saved
-        models:
-          center:
-            name: Center
-          role:
-            name: Role
       admin_log:
         center:
           create: "%{user_name} created the %{resource_name} center"
@@ -81,5 +81,5 @@ en:
             title: Title
         role:
           fields:
-            title: Title
             created_at: Created at
+            title: Title
