@@ -4,7 +4,7 @@ require "spec_helper"
 
 module Decidim
   describe User do
-    subject { user }
+    subject { user.reload }
 
     let(:user) { create :user }
 
@@ -50,8 +50,8 @@ module Decidim
           expect(subject.roles).to eq []
         end
 
-        it "has no rule" do
-          expect(subject.rule).to be_nil
+        it "has no role" do
+          expect(subject.role).to be_nil
         end
       end
 
