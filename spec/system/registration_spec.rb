@@ -11,6 +11,8 @@ describe "Registration spec", type: :system do
   let(:password) { Faker::Internet.password(min_length: 17) }
   let!(:center) { create :center, organization: organization }
   let!(:other_center) { create :center, organization: organization }
+  let!(:role) { create :role, organization: organization }
+  let!(:other_role) { create :role, organization: organization }
   let!(:scope) { create :scope, organization: organization }
   let!(:other_scope) { create :scope, organization: organization }
 
@@ -25,6 +27,12 @@ describe "Registration spec", type: :system do
     end
   end
 
+  it "contains role field" do
+    within ".card__centers" do
+      expect(page).to have_content("Role")
+    end
+  end
+
   it "contains scope field" do
     within ".card__centers" do
       expect(page).to have_content("Scope")
@@ -33,6 +41,12 @@ describe "Registration spec", type: :system do
 
   it "displays center as mandatory" do
     within ".card__centers label[for='registration_user_center_id']" do
+      expect(page).to have_css("span.label-required")
+    end
+  end
+
+  it "displays role as mandatory" do
+    within ".card__centers label[for='registration_user_role_id']" do
       expect(page).to have_css("span.label-required")
     end
   end
@@ -55,6 +69,10 @@ describe "Registration spec", type: :system do
         find("option[value='#{center.id}']").click
       end
 
+      within "#registration_user_role_id" do
+        find("option[value='#{role.id}']").click
+      end
+
       scope_pick select_data_picker(:registration_user), scope
     end
 
@@ -67,10 +85,11 @@ describe "Registration spec", type: :system do
 
     expect(page).to have_content("message with a confirmation link has been sent")
     expect(Decidim::User.last.center).to eq(center)
+    expect(Decidim::User.last.center_role).to eq(role)
     expect(Decidim::User.last.scope).to eq(scope)
 
     perform_enqueued_jobs
-    check_center_authorization(Decidim::Authorization.last, Decidim::User.last, center, scope)
+    check_center_authorization(Decidim::Authorization.last, Decidim::User.last, center, scope: scope, role: role)
   end
 
   context "with scopes disabled" do
@@ -82,6 +101,10 @@ describe "Registration spec", type: :system do
 
     it "doesn't show the scope input" do
       expect(page).not_to have_content("Global scope")
+    end
+
+    it "doesn't show the role input" do
+      expect(page).not_to have_content("Roles")
     end
   end
 end

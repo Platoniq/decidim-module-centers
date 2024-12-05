@@ -23,7 +23,7 @@ module Decidim
           allow(Rails.logger).to receive(:error).and_call_original
         end
 
-        context "when the user has no center neither scope" do
+        context "when the user has no center neither role neither scope" do
           it_behaves_like "no authorization is created"
 
           context "when there is a previous authorization for the user" do
@@ -48,8 +48,9 @@ module Decidim
           end
         end
 
-        context "when the user has center and scope" do
+        context "when the user has center, role and scope" do
           let!(:center_user) { create :center_user, user: user }
+          let!(:role_user) { create :role_user, user: user }
           let!(:scope_user) { create :scope_user, user: user }
 
           it "creates an authorization" do

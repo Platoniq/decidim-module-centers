@@ -30,12 +30,44 @@ module Decidim
           expect(subject.center_users).to eq Centers::CenterUser.all
         end
 
-        it "has no centers" do
+        it "has centers" do
           expect(subject.centers).to eq Centers::Center.all
         end
 
-        it "has no center" do
+        it "has center" do
           expect(subject.center).to eq Centers::Center.first
+        end
+      end
+    end
+
+    describe "roles" do
+      context "without role" do
+        it "has no role_users" do
+          expect(subject.role_users).to eq []
+        end
+
+        it "has no roles" do
+          expect(subject.center_roles).to eq []
+        end
+
+        it "has no role" do
+          expect(subject.center_role).to be_nil
+        end
+      end
+
+      context "with role" do
+        let!(:role_user) { create :role_user, user: user }
+
+        it "has role_users" do
+          expect(subject.role_users).to eq Centers::RoleUser.all
+        end
+
+        it "has roles" do
+          expect(subject.center_roles).to eq Centers::Role.all
+        end
+
+        it "has role" do
+          expect(subject.center_role).to eq Centers::Role.first
         end
       end
     end
@@ -62,11 +94,11 @@ module Decidim
           expect(subject.scope_users).to eq Centers::ScopeUser.all
         end
 
-        it "has no scopes" do
+        it "has scopes" do
           expect(subject.scopes).to eq Scope.all
         end
 
-        it "has no scope" do
+        it "has scope" do
           expect(subject.scope).to eq Scope.first
         end
       end

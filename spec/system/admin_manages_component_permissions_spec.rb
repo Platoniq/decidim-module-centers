@@ -7,10 +7,14 @@ describe "Admin manages component permissions", type: :system do
   let(:organization) { create :organization, available_authorizations: %w(center) }
   let(:user) { create :user, :admin, :confirmed, organization: organization }
   let!(:centers) { create_list :center, 10, organization: organization }
+  let!(:roles) { create_list :role, 10, organization: organization }
   let!(:scopes) { create_list :scope, 10, organization: organization }
   let(:center) { centers.first }
   let(:other_center) { centers.second }
   let(:another_center) { centers.last }
+  let(:role) { roles.first }
+  let(:other_role) { roles.second }
+  let(:another_role) { roles.last }
   let(:scope) { scopes.first }
   let(:other_scope) { scopes.second }
   let(:another_scope) { scopes.last }
@@ -22,7 +26,11 @@ describe "Admin manages component permissions", type: :system do
       "foo" => {
         "authorization_handlers" => {
           "center" => {
-            "options" => { "centers" => "#{center.id},#{other_center.id}", "scopes" => "#{scope.id},#{other_scope.id}" }
+            "options" => {
+              "centers" => "#{center.id},#{other_center.id}",
+              "roles" => "#{role.id},#{other_role.id}",
+              "scopes" => "#{scope.id},#{other_scope.id}"
+            }
           }
         }
       }
@@ -39,7 +47,18 @@ describe "Admin manages component permissions", type: :system do
     within "form.new_component_permissions" do
       within ".foo-permission" do
         check "Center"
-        fill_in "Centers", with: name
+        fill_in "Centers", with: name, match: :prefer_exact
+      end
+    end
+
+    find("li.select2-results__option", text: name).click
+  end
+
+  def select_role(name)
+    within "form.new_component_permissions" do
+      within ".foo-permission" do
+        check "Center"
+        fill_in "Roles", with: name, match: :prefer_exact
       end
     end
 
@@ -50,7 +69,7 @@ describe "Admin manages component permissions", type: :system do
     within "form.new_component_permissions" do
       within ".foo-permission" do
         check "Center"
-        fill_in "Scopes", with: name
+        fill_in "Scopes", with: name, match: :prefer_exact
       end
     end
 
@@ -58,11 +77,15 @@ describe "Admin manages component permissions", type: :system do
   end
 
   def unselect_center(name)
-    find(".centers_container li.select2-selection__choice[title=\"#{name}\"] button.select2-selection__choice__remove").click
+    all(".centers_container label li.select2-selection__choice[title=\"#{name}\"] button.select2-selection__choice__remove").first.click
+  end
+
+  def unselect_role(name)
+    all(".roles_container label li.select2-selection__choice[title=\"#{name}\"] button.select2-selection__choice__remove").first.click
   end
 
   def unselect_scope(name)
-    find(".scopes_container li.select2-selection__choice[title=\"#{name}\"] button.select2-selection__choice__remove").click
+    all(".scopes_container label li.select2-selection__choice[title=\"#{name}\"] button.select2-selection__choice__remove").first.click
   end
 
   def submit_form
@@ -79,6 +102,14 @@ describe "Admin manages component permissions", type: :system do
     end
   end
 
+  context "when roles are disabled" do
+    include_context "with roles disabled"
+
+    it "doesn't show a field for the roles" do
+      expect(page).not_to have_selector(".roles_container")
+    end
+  end
+
   context "when setting permissions" do
     before do
       within ".component-#{component.id}" do
@@ -89,6 +120,8 @@ describe "Admin manages component permissions", type: :system do
     it "saves permission settings in the component" do
       select_center(center.title["en"])
       select_center(other_center.title["en"])
+      select_role(role.title["en"])
+      select_role(other_role.title["en"])
       select_scope(scope.name["en"])
       select_scope(other_scope.name["en"])
       submit_form
@@ -99,7 +132,11 @@ describe "Admin manages component permissions", type: :system do
         include(
           "authorization_handlers" => {
             "center" => {
-              "options" => { "centers" => "#{center.id},#{other_center.id}", "scopes" => "#{scope.id},#{other_scope.id}" }
+              "options" => {
+                "centers" => "#{center.id},#{other_center.id}",
+                "roles" => "#{role.id},#{other_role.id}",
+                "scopes" => "#{scope.id},#{other_scope.id}"
+              }
             }
           }
         )
@@ -143,6 +180,8 @@ describe "Admin manages component permissions", type: :system do
     it "changes the configured action in the permissions hash" do
       unselect_center(center.title["en"])
       select_center(another_center.title["en"])
+      unselect_role(role.title["en"])
+      select_role(another_role.title["en"])
       unselect_scope(scope.name["en"])
       select_scope(another_scope.name["en"])
       submit_form
@@ -153,7 +192,11 @@ describe "Admin manages component permissions", type: :system do
         include(
           "authorization_handlers" => {
             "center" => {
-              "options" => { "centers" => "#{other_center.id},#{another_center.id}", "scopes" => "#{other_scope.id},#{another_scope.id}" }
+              "options" => {
+                "centers" => "#{other_center.id},#{another_center.id}",
+                "roles" => "#{other_role.id},#{another_role.id}",
+                "scopes" => "#{other_scope.id},#{another_scope.id}"
+              }
             }
           }
         )

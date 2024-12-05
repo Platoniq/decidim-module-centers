@@ -15,5 +15,10 @@ module Decidim
     config_accessor :scopes_enabled do
       Decidim::Env.new("DECIDIM_CENTERS_SCOPES_ENABLED", true).default_or_present_if_exists
     end
+
+    # if false, it won't ask the user for the role
+    config_accessor :roles_enabled do
+      Decidim::Env.new("DECIDIM_CENTERS_ROLES_ENABLED", true).default_or_present_if_exists
+    end
   end
 end

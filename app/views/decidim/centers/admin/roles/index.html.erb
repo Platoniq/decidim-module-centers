@@ -1,0 +1,45 @@
+<% add_decidim_page_title(t(".title")) %>
+<div class="card">
+  <div class="card-divider">
+    <h2 class="card-title">
+      <%= t(".title") %>
+      <%= link_to t("actions.new", scope: "decidim.centers.admin.roles", name: t("models.role.name", scope: "decidim.centers.admin")), new_role_path, class: "button tiny button--title" if allowed_to? :create, :role %>
+    </h2>
+  </div>
+
+  <div class="card-section">
+    <div class="table-scroll">
+      <table class="table-list roles">
+        <thead>
+          <tr>
+            <th><%= t("models.role.fields.title", scope: "decidim.centers") %></th>
+            <th><%= t("models.role.fields.created_at", scope: "decidim.centers") %></th>
+            <th class="actions"><%= t("actions.title", scope: "decidim.centers.admin.roles") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% roles.each do |role| %>
+            <tr data-id="<%= role.id %>">
+              <td>
+                <%= translated_attribute(role.title) %><br>
+              </td>
+              <td>
+                <%= l role.created_at, format: "%d/%m/%Y - %H:%M" %>
+              </td>
+              <td class="table-list__actions">
+                <% if allowed_to? :update, :role, role: role %>
+                  <%= icon_link_to "pencil", edit_role_path(role), t("actions.edit", scope: "decidim.centers.admin.roles"), class: "action-icon--edit" %>
+                <% end %>
+
+                <% if allowed_to? :destroy, :role, role: role %>
+                  <%= icon_link_to "circle-x", role_path(role), t("actions.destroy", scope: "decidim.centers.admin.roles"), method: :delete, class: "action-icon--remove", data: { confirm: t("actions.confirm_destroy", scope: "decidim.centers.admin.roles") } %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= paginate roles, theme: "decidim" %>
+    </div>
+  </div>
+</div>

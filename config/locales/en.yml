@@ -6,17 +6,18 @@ en:
         explanation: Get verified with the center of the user
         fields:
           centers: Centers
+          roles: Roles
           scopes: Scopes
         name: Center
     centers:
-      actions:
-        confirm_destroy: Are you sure you want to delete this center?
-        destroy: Delete
-        edit: Edit
-        new: New center
-        title: Actions
       admin:
         centers:
+          actions:
+            confirm_destroy: Are you sure you want to delete this center?
+            destroy: Delete
+            edit: Edit
+            new: New center
+            title: Actions
           create:
             invalid: There was a problem creating this center
             success: Center successfully created
@@ -36,16 +37,49 @@ en:
         models:
           center:
             name: Center
+          role:
+            name: Role
+        roles:
+          actions:
+            confirm_destroy: Are you sure you want to delete this role?
+            destroy: Delete
+            edit: Edit
+            new: New role
+            title: Actions
+          create:
+            invalid: There was a problem creating this role
+            success: Role successfully created
+          destroy:
+            success: Role successfully deleted
+          edit:
+            save: Update
+            title: Edit role
+          index:
+            title: Roles
+          new:
+            create: Create
+            title: Create role
+          update:
+            invalid: There was a problem saving the role.
+            success: Role successfully saved
       admin_log:
         center:
           create: "%{user_name} created the %{resource_name} center"
           delete: "%{user_name} deleted the %{resource_name} center"
           update: "%{user_name} updated the %{resource_name} center"
+        role:
+          create: "%{user_name} created the %{resource_name} role"
+          delete: "%{user_name} deleted the %{resource_name} role"
+          update: "%{user_name} updated the %{resource_name} role"
       authorizations:
         new:
-          error: The user has no center or scope configured
+          error: The user has no center, role or scope configured
       models:
         center:
+          fields:
+            created_at: Created at
+            title: Title
+        role:
           fields:
             created_at: Created at
             title: Title

@@ -13,19 +13,26 @@ module Decidim
         include Decidim::Centers::ApplicationHelper
 
         attribute :center_id, Integer
+        attribute :role_id, Integer
         attribute :scope_id, Integer
 
         validates :center_id, presence: true
+        validates :role_id, presence: true, if: :role_id?
         validates :scope_id, presence: true, if: :scope_id?
 
         def map_model(model)
           original_map_model(model)
 
           self.center_id = model.center.try(:id)
+          self.role_id = model.center_role.try(:id)
           self.scope_id = model.scope.try(:id)
         end
 
         private
+
+        def role_id?
+          Decidim::Centers.roles_enabled
+        end
 
         def scope_id?
           Decidim::Centers.scopes_enabled

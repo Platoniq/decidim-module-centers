@@ -54,6 +54,7 @@ module Decidim
       initializer "decidim_centers.sync" do
         ActiveSupport::Notifications.subscribe "decidim.centers.user.updated" do |_name, data|
           Decidim::Centers::SyncCenterUserJob.perform_now(data)
+          Decidim::Centers::SyncRoleUserJob.perform_now(data) if Decidim::Centers.roles_enabled
           Decidim::Centers::SyncScopeUserJob.perform_now(data) if Decidim::Centers.scopes_enabled
           Decidim::Centers::AutoVerificationJob.perform_later(data[:user_id])
         end
@@ -66,6 +67,7 @@ module Decidim
 
           workflow.options do |options|
             options.attribute :centers, type: :string
+            options.attribute :roles, type: :string if Decidim::Centers.roles_enabled
             options.attribute :scopes, type: :string if Decidim::Centers.scopes_enabled
           end
         end
