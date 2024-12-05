@@ -13,7 +13,7 @@ module Decidim
         def metadata
           super.merge(
             centers: user.centers.pluck(:id),
-            roles: user.roles.pluck(:id),
+            roles: user.center_roles.pluck(:id),
             scopes: user.scopes.pluck(:id)
           )
         end
@@ -27,7 +27,7 @@ module Decidim
         def role_present
           return unless Decidim::Centers.roles_enabled
 
-          errors.add(:user, I18n.t("decidim.centers.authorizations.new.error")) unless user.roles.any?
+          errors.add(:user, I18n.t("decidim.centers.authorizations.new.error")) unless user.center_roles.any?
         end
 
         def scope_present

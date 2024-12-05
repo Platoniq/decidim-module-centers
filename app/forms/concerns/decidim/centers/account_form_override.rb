@@ -24,7 +24,7 @@ module Decidim
           original_map_model(model)
 
           self.center_id = model.center.try(:id)
-          self.role_id = model.role.try(:id)
+          self.role_id = model.center_role.try(:id)
           self.scope_id = model.scope.try(:id)
         end
 

@@ -85,7 +85,7 @@ describe "Registration spec", type: :system do
 
     expect(page).to have_content("message with a confirmation link has been sent")
     expect(Decidim::User.last.center).to eq(center)
-    expect(Decidim::User.last.role).to eq(role)
+    expect(Decidim::User.last.center_role).to eq(role)
     expect(Decidim::User.last.scope).to eq(scope)
 
     perform_enqueued_jobs

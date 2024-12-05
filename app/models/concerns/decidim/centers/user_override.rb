@@ -18,7 +18,7 @@ module Decidim
                  foreign_key: "decidim_user_id",
                  dependent: :destroy
 
-        has_many :roles, through: :role_users
+        has_many :center_roles, through: :role_users, source: :role
 
         has_many :scope_users,
                  class_name: "Decidim::Centers::ScopeUser",
@@ -31,19 +31,12 @@ module Decidim
           centers.first
         end
 
-        def role
-          roles.first
+        def center_role
+          center_roles.first
         end
 
         def scope
           scopes.first
-        end
-
-        def valid?(context = nil)
-          # @todo: Try to remove this hack and fix the root cause of the issue. When the user already has a role, the validation of the roles is failing
-          super(context)
-          errors.delete(:roles)
-          errors.empty?
         end
       end
     end

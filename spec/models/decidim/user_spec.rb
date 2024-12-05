@@ -4,7 +4,7 @@ require "spec_helper"
 
 module Decidim
   describe User do
-    subject { user.reload }
+    subject { user }
 
     let(:user) { create :user }
 
@@ -47,11 +47,11 @@ module Decidim
         end
 
         it "has no roles" do
-          expect(subject.roles).to eq []
+          expect(subject.center_roles).to eq []
         end
 
         it "has no role" do
-          expect(subject.role).to be_nil
+          expect(subject.center_role).to be_nil
         end
       end
 
@@ -63,11 +63,11 @@ module Decidim
         end
 
         it "has roles" do
-          expect(subject.roles).to eq Centers::Role.all
+          expect(subject.center_roles).to eq Centers::Role.all
         end
 
         it "has role" do
-          expect(subject.role).to eq Centers::Role.first
+          expect(subject.center_role).to eq Centers::Role.first
         end
       end
     end
