@@ -33,7 +33,7 @@ the center, the role and the scope it will work as an "and" between them.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "decidim-centers", "~> 0.1.0"
+gem "decidim-centers"
 ```
 
 And then execute:
