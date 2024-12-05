@@ -8,7 +8,7 @@ module Decidim
           return permission_action unless user
           return permission_action unless user.admin?
           return permission_action unless permission_action.scope == :admin
-          return permission_action unless permission_action.subject == :center
+          return permission_action unless [:center, :role].include?(permission_action.subject)
 
           allow!
           permission_action

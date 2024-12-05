@@ -12,6 +12,7 @@ module Decidim
           "decidim.centers.user.updated",
           user_id: @user.id,
           center_id: @form.center_id,
+          role_id: @form.role_id,
           scope_id: @form.scope_id
         )
       end

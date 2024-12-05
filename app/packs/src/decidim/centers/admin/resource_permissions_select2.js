@@ -10,6 +10,10 @@ $(() => {
       inputName: "[authorization_handlers_options][center][centers]"
     },
     {
+      url: "/admin/centers/roles",
+      inputName: "[authorization_handlers_options][center][roles]"
+    },
+    {
       url: "/admin/centers/scopes",
       inputName: "[authorization_handlers_options][center][scopes]"
     }

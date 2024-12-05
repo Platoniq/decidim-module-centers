@@ -6,13 +6,14 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/6b1b656b229f9731a64b/maintainability)](https://codeclimate.com/github/Platoniq/decidim-module-centers/maintainability)
 [![codecov](https://codecov.io/gh/Platoniq/decidim-module-centers/branch/main/graph/badge.svg)](https://codecov.io/gh/Platoniq/decidim-module-centers)
 
-Manage your centers and scopes so the users can be authorized over them. As an admin you will be able
-to create centers and scopes (we use the model Decidim currently provides).
+Manage your centers, roles and scopes so the users can be authorized over them. As an admin you will be able
+to create centers, roles and scopes (we use the model Decidim currently provides).
 
 When a user signs up in the platform two new fields will appear in the registration form.
 
 - **Center**: Where the user works. For example: "University of Granada"
 - **Scope**: The work scope in which the user works. For example: "Computer Science"
+- **Role**: The role of the user in the center. For example: "Professor"
 
 ![Registration form](examples/registration.png)
 
@@ -22,8 +23,8 @@ When they create the account or update their values, a `center` authorization wi
 with the value of the center and scope the user has selected.
 
 As an admin you will be able to configure the permissions of a component restricting the access to
-specific centers and scopes. When you select multiple centers or scopes they work as "or". When you specify
-both the center and the scope it will work as an "and" between them.
+specific centers, roles and scopes. When you select multiple centers, roles or scopes they work as "or". When you specify
+the center, the role and the scope it will work as an "and" between them.
 
 ![Permissions in the admin page](examples/permissions.png)
 
@@ -58,9 +59,10 @@ Depending on your Decidim version, choose the corresponding version to ensure co
 
 You can customize your installation using the environment variables below:
 
-| ENV                                  | Description                                               | Default | Example      |
-|--------------------------------------|-----------------------------------------------------------|---------|--------------|
-| DECIDIM_CENTERS_SCOPES_ENABLED       | Use scopes to categorize users too along with the centers | true    | false        |
+| ENV                            | Description                                               | Default | Example      |
+|--------------------------------|-----------------------------------------------------------|---------|--------------|
+| DECIDIM_CENTERS_SCOPES_ENABLED | Use scopes to categorize users too along with the centers | true    | false        |
+| DECIDIM_CENTERS_ROLES_ENABLED  | Use roles to categorize users too along with the centers  | true    | false        |
 
 > **IMPORTANT**: Remember to activate the verification method `center` in the
 > Decidim `/system` admin page for your organization.

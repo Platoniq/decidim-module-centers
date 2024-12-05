@@ -11,6 +11,7 @@ module Decidim
 
       routes do
         resources :centers
+        resources :roles
         resources :scopes, only: :index
         root to: "centers#index"
       end
@@ -28,6 +29,12 @@ module Decidim
                         decidim_admin_centers.centers_path,
                         icon_name: "home",
                         position: 15,
+                        active: :inclusive
+          menu.add_item :roles,
+                        I18n.t("menu.roles", scope: "decidim.admin", default: "Roles"),
+                        decidim_admin_centers.roles_path,
+                        icon_name: "members",
+                        position: 16,
                         active: :inclusive
         end
       end
