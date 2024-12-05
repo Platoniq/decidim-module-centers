@@ -135,7 +135,7 @@ describe "Center verifications spec", type: :system do
       context "when the user has one of the specified centers" do
         let(:options) { { "centers" => "#{center.id},#{other_center.id}", "scopes" => "#{scope.id},#{other_scope.id}" } }
 
-       it_behaves_like "user is authorized"
+        it_behaves_like "user is authorized"
       end
 
       context "when the user doesn't have one of the specified centers" do
