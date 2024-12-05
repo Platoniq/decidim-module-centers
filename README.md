@@ -4,7 +4,7 @@
 [![[CI] Lint](https://github.com/Platoniq/decidim-module-centers/actions/workflows/lint.yml/badge.svg)](https://github.com/Platoniq/decidim-module-centers/actions/workflows/lint.yml)
 [![[CI] Test](https://github.com/Platoniq/decidim-module-centers/actions/workflows/test.yml/badge.svg)](https://github.com/Platoniq/decidim-module-centers/actions/workflows/test.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/6b1b656b229f9731a64b/maintainability)](https://codeclimate.com/github/Platoniq/decidim-module-centers/maintainability)
-[![codecov](https://codecov.io/gh/Platoniq/decidim-module-centers/branch/main/graph/badge.svg)](https://codecov.io/gh/Platoniq/decidim-module-centers)
+[![Coverage Status](https://coveralls.io/repos/github/Platoniq/decidim-module-centers/badge.svg?branch=main)](https://coveralls.io/github/Platoniq/decidim-module-centers?branch=main)
 
 Manage your centers, roles and scopes so the users can be authorized over them. As an admin you will be able
 to create centers, roles and scopes (we use the model Decidim currently provides).
