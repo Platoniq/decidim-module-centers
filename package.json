@@ -1,6 +1,6 @@
 {
   "name": "decidim-module-centers",
-  "version": "0.1.0.dev",
+  "version": "0.2.1",
   "description": "A decidim centers module",
   "scripts": {
     "lint": "eslint -c .eslintrc.json --ext .js app/packs/",
