@@ -1,10 +1,10 @@
 <div class="card">
   <div class="card__content card__centers">
     <div class="field">
-      <%= f.collection_select :center_id, f.object.center_options_for_select, :first, :last %>
+      <%= f.collection_select :center_id, f.object.center_options_for_select, :first, :last, {}, { data: { abide_ignore: true, }, required: true } %>
 
       <% if Decidim::Centers.roles_enabled %>
-        <%= f.collection_select :role_id, f.object.role_options_for_select, :first, :last %>
+        <%= f.collection_select :role_id, f.object.role_options_for_select, :first, :last, {}, { data: { abide_ignore: true, }, required: true } %>
       <% end %>
 
       <% if Decidim::Centers.scopes_enabled %>
